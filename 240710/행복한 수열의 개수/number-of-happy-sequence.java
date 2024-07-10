@@ -3,6 +3,9 @@ import java.util.Scanner;
 public class Main {
     public static int n;
     public static int checkRow(int[][] grid, int r, int m){
+        if(m == 1){
+            return 1;   
+        }
         int sum = 0;
         int cnt = 1;
         int pre = grid[r][0];
@@ -20,6 +23,9 @@ public class Main {
         return sum;
     }
     public static int checkCol(int[][] grid, int c, int m){
+        if( m == 1){
+            return 1;
+        }
         int sum =0;
         int cnt =1;
         int pre = grid[0][c];
