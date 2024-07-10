@@ -10,13 +10,17 @@ public class Main {
         int n = sc.nextInt();
         int k = sc.nextInt();
 
-        for(int i=0 ; i<n; i++){
+        for (int i = 0; i < n; i++) {
             int num = sc.nextInt();
-            m.put(num, k-num);
-            if(m.containsKey(m.get(num))){
-                result++;
+
+            if (m.containsKey(k - num)) {
+                result += m.get(k - num);
             }
+
+            m.put(num, m.getOrDefault(num, 0) + 1);
         }
+
         System.out.println(result);
+        sc.close();
     }
 }
