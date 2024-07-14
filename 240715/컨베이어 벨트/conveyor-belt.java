@@ -29,17 +29,19 @@ public class Main{
         }
 
         //옮기기
+        for(int c=0;c<t;c++){
+            int tmp = belt[0][n-1];
+            for(int i=n-1;i>0;i--){
+                belt[0][i] = belt[0][i-1];
+            }
+            belt[0][0] = belt[1][0];
     
-        int tmp = belt[0][n-1];
-        for(int i=n-1;i>0;i--){
-            belt[0][i] = belt[0][i-1];
+            for(int i=0;i<n-1;i++){
+                belt[1][i] = belt[1][i+1];
+            }
+            belt[1][n-1] = tmp;
         }
-        belt[0][0] = belt[1][0];
-
-        for(int i=0;i<n-1;i++){
-            belt[1][i] = belt[1][i+1];
-        }
-        belt[1][n-1] = tmp;
+       
 
         //출력
         for(int i=0;i<n;i++){
