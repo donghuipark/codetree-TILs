@@ -31,7 +31,7 @@ public class Main{
                     int gold = checkGold(i, j, k);
                     int cost = calCost(k);
                     
-                    if (cost < m*gold) {
+                    if (cost <= m*gold) {
                         ans = Math.max(ans, gold);                        
                     }
                 }
