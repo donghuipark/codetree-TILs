@@ -15,7 +15,7 @@ public class Main {
         
 
 
-        for(int i=n ;i>0;i--){
+        for(int i=1 ;i<n+1;i++){
             arr[i] = Integer.parseInt(br.readLine());
         }
 
@@ -44,7 +44,7 @@ public class Main {
             }
         }
 
-        for(int i=size; i>0;i--){
+        for(int i=1; i<size+1;i++){
             System.out.println(arr[i]);
         }
 
