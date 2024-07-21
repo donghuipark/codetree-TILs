@@ -12,17 +12,17 @@ public class Main{
         for(int i=0;i<4;i++){
             //일단 공백이 있는 지없는지 먼저 봐야할것같은데...
             //이제 왼쪽으로밀어
-            int[] tmp = new int[4];
-            int endOfTmp =0;
+            int[] tmp1 = new int[4];
+            int endOfTmp1 =0;
             for(int j=0;j<4;j++){
                 if (grid[i][j] != 0) {
-                    tmp[endOfTmp++] = grid[i][j];
+                    tmp1[endOfTmp1++] = grid[i][j];
                 }
             }
 
             //이제 옮겨
             for(int j=0;j<4;j++){
-                grid[i][j] = tmp[j];
+                grid[i][j] = tmp1[j];
             }
             //벽쪽에서부터 같은 수가 2개 있는가 없을때까지 돌려봐야할것같은데.
             for(int curIdx = 0; curIdx<3;curIdx++){
@@ -54,16 +54,16 @@ public class Main{
         //가로줄 보자
         for(int i=0;i<4;i++){
              //오른쪽으로 이제 밀기
-             int[] tmp = new int[4];
-             int endOfTmp = 3;
+             int[] tmp1 = new int[4];
+             int endOfTmp1 = 3;
              for(int j=3; j>=0; j--){
                  if (grid[i][j] !=0) {
-                     tmp[endOfTmp--] =grid[i][j];
+                     tmp1[endOfTmp1--] =grid[i][j];
                  }
              }
              // 다시 옮기기
              for(int j=0;j<4;j++){
-                 grid[i][j] = tmp[j];
+                 grid[i][j] = tmp1[j];
              }
             //벽면 오른쪽이니깐 cur을 3부터 0까지
             for(int curIdx =3 ; curIdx>0 ; curIdx--){
@@ -94,16 +94,16 @@ public class Main{
         for(int j=0;j<4;j++){
             
             //위로 밀기
-            int[] tmp = new int[4];
-            int endOfTmp = 0;
+            int[] tmp1 = new int[4];
+            int endOfTmp1 = 0;
             for(int i=0;i<4;i++){
                 if (grid[i][j] != 0) {
-                    tmp[endOfTmp++] = grid[i][j];
+                    tmp1[endOfTmp1++] = grid[i][j];
                 }
             }
             //copy
             for(int i=0;i<4;i++){
-                grid[i][j] = tmp[i];
+                grid[i][j] = tmp1[i];
             }
             //위가 벽면이다.
             for(int curIdx =0; curIdx<3; curIdx++){
@@ -135,16 +135,16 @@ public class Main{
         for(int j=0;j<4;j++){
             
             //밑으로 밀기
-            int[] tmp = new int[4];
-            int endOfTmp = 3;
+            int[] tmp1 = new int[4];
+            int endOfTmp1 = 3;
             for(int i=3;i>=0;i--){
                 if (grid[i][j] !=0) {
-                    tmp[endOfTmp--] = grid[i][j];
+                    tmp1[endOfTmp1--] = grid[i][j];
                 }
             }
             //copy
             for(int i=0;i<4;i++){
-                grid[i][j] = tmp[i];
+                grid[i][j] = tmp1[i];
             }
             //벽이 밑이다.
             for(int curIdx = 3; curIdx>0; curIdx--){
