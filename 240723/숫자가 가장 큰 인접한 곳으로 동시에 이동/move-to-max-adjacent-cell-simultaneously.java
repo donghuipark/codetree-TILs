@@ -27,14 +27,16 @@ public class Main{
         int[][] newCount = new int[n][n];
 
         int nx=0, ny=0;
-        int max = 0;
+        
         for(int i=0;i<n;i++){
             for(int j=0; j<n;j++){
                 if (count[i][j] == 1) {
-                    max = grid[i][j];
+                    int max = grid[i][j];
                     for(int d=0;d<4;d++){
-                        if (isRange(i + dx[d], j + dy[d]) && max < grid[i + dx[d]][j + dy[d]]) {
-                            max = grid[i+dx[d]][j+dy[d]];
+                        if (isRange(i + dx[d], j + dy[d])) {
+                            if (max < grid[i + dx[d]][j + dy[d]]) {
+                                max = grid[i+dx[d]][j+dy[d]];
+                            }
                             nx = i + dx[d];
                             ny = j + dy[d];
                         }
