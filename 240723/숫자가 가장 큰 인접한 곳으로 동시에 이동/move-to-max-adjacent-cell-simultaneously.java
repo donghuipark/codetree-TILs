@@ -1,102 +1,62 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
-class Pair{
-    int x;
-    int y;
-    public Pair(int x, int y){
-        this.x = x;
-        this.y = y;
-    }
-}
-
-public class Main{
-    private static int n, m, t;
-    private static int[][] grid;
-    private static int[][] count;
-    
-    private static int[] dx = {-1, 1, 0, 0};
-    private static int[] dy = {0, 0, -1, 1};
-
-    private static boolean isRange(int x, int y){
-        return x >=0 && x < n && y >=0 && y< n;
-    }
-    private static void move(){
-        int[][] newCount = new int[n][n];
-
-        int nx=0, ny=0;
-        
-        for(int i=0;i<n;i++){
-            for(int j=0; j<n;j++){
-                if (count[i][j] == 1) {
-                    int max = grid[i][j];
-                    for(int d=0;d<4;d++){
-                        nx =i;
-                        ny =j;
-                        if (isRange(i + dx[d], j + dy[d]) && max < grid[i + dx[d]][j + dy[d]]) {
-                            max = grid[i+dx[d]][j+dy[d]];
-                            nx = i + dx[d];
-                            ny = j + dy[d];    
-                        }
-                    }
-                    newCount[nx][ny] += 1;
-                }
-            }
-        }
-        //copy
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                count[i][j] = newCount[i][j];
-            }
-        }
-        //remove
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                if (count[i][j] >= 2) {
-                    count[i][j] = 0;                    
-                }
-            }
-        }
-    }
-    public static void main(String[] args) throws IOException {
+public class Main {
+    public static int[][] map, direction = {{0,1},{0,-1},{1,0},{-1,0}};
+    public static int n, MAX_LEN = 21;
+    public static Queue<int[]> queue = new ArrayDeque<>();
+    public static void main(String[] args) throws IOException{
+        // 여기에 코드를 작성해주세요.
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
         n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
-        t = Integer.parseInt(st.nextToken());
-
-        grid = new int[n][n];
-        count = new int[n][n];
-
-        for(int i=0;i<n;i++){
-            st = new StringTokenizer(br.readLine());
-            for(int j=0;j<n;j++){
-                grid[i][j] = Integer.parseInt(st.nextToken());
-            }
+        int m = Integer.parseInt(st.nextToken()), t = Integer.parseInt(st.nextToken());
+        map = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            map[i] = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
         }
-
-        for(int i=0;i<m;i++){
-            st = new StringTokenizer(br.readLine());
-
-            int a = Integer.parseInt(st.nextToken()) -1;
-            int b = Integer.parseInt(st.nextToken()) -1;
-
-            count[a][b] = 1;
+        for (int i = 0; i < m; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            int r = Integer.parseInt(st.nextToken())-1, c = Integer.parseInt(st.nextToken())-1;
+            queue.offer(new int[]{r, c});
         }
-
-        for(int i=0;i<t;i++){
+        for(int i=0; i<t; i++) {
             move();
         }
+        System.out.print(queue.size());
+        br.close();
+    }
 
-        int result = 0;
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                result += count[i][j];
+    public static void move() {
+        Set<Integer> set = new HashSet<>(), removes = new HashSet<>();
+        int size = queue.size();
+        for(int i=0; i<size; i++) {
+            int[] pos = queue.poll();
+
+            int r=0, c=0, max = -1;
+            for(int j=0; j<direction.length; j++) {
+                int nextR = pos[0] + direction[j][0];
+                int nextC = pos[1] + direction[j][1];
+                if(isRange(nextR, nextC) && map[nextR][nextC] >= max) {
+                    r = nextR;
+                    c = nextC;
+                    max = map[r][c];
+                }
             }
+            int key = r*MAX_LEN + c;
+            if(set.contains(key)) removes.add(key);
+            set.add(key);
+            queue.offer(new int[]{r, c});
         }
-        System.out.println(result);
+        size = queue.size();
+        for(int i=0; i<size; i++) {
+            int[] pos = queue.poll();
+            if(removes.contains(pos[0]*MAX_LEN + pos[1])) continue;
+            queue.offer(pos);
+        }
+    }
+
+    public static boolean isRange(int r, int c) {
+        return r>=0 && r<n && c>=0 && c<n;
     }
 }
