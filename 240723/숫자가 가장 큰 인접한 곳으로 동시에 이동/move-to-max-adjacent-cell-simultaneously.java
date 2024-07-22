@@ -34,7 +34,7 @@ public class Main{
                     max = grid[i][j];
                     for(int d=0;d<4;d++){
                         if (isRange(i + dx[d], j + dy[d]) && max < grid[i + dx[d]][j + dy[d]]) {
-                            max = grid[nx][ny];
+                            max = grid[i+dx[d]][j+dy[d]];
                             nx = i + dx[d];
                             ny = j + dy[d];
                         }
@@ -43,13 +43,13 @@ public class Main{
                 }
             }
         }
-
+        //copy
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
                 count[i][j] = newCount[i][j];
             }
         }
-
+        //remove
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
                 if (count[i][j] >= 2) {
