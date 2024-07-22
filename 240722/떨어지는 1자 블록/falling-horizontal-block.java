@@ -1,57 +1,75 @@
 import java.io.*;
 import java.util.*;
 
-public class Main{
-    private static int n, m, k;
-    private static int[][] grid;
-    public static void main(String[] args) throws IOException {
+public class Main {
+
+    static int n;
+    static int m;
+    static int k;
+    static int[][] arr;
+
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
-        k = Integer.parseInt(st.nextToken()) -1;
+        k = Integer.parseInt(st.nextToken()) - 1;
 
-        grid = new int[n][n];
-        for(int i=0;i<n; i++){
-            st = new StringTokenizer(br.readLine());
-            for(int j=0;j<n;j++){
-                grid[i][j] = Integer.parseInt(st.nextToken());
+        arr = new int[n][n];
+
+        for (int i=0; i<n; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            for (int j=0; j<n; j++) {
+                arr[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        for(int i =n-1; i>=0; i--){
-            int start = solve(i);
-            if (start != -1) {
-                for(int j = start; j< start+m; j++){
-                    grid[i][j] = 1;
-                }
-                break;
-            }else{
-                continue;
-            }               
+        down();
+
+        for (int i=0; i<n; i++) {
+            for (int j=0; j<n; j++) {
+                sb.append(arr[i][j]).append(" ");
+            }
+            sb.append("\n");
         }
 
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                System.out.print(grid[i][j] + " ");
-            }
-            System.out.println();
+        bw.write(sb.toString());
+        bw.close();
+        br.close();
+    }
+
+    private static void down() {
+        int row = getRowPosition();
+
+        for (int j=k; j<k+m; j++) {
+            arr[row][j] = 1;
         }
     }
-    private static int solve(int r){
-        int cnt =0;
-        int start = 0;
-        for(int i=k;i<n;i++){
-            if (grid[r][i] == 0) {
-                cnt++;
-                if (cnt == m) {
-                    return start;
+
+    private static int getRowPosition() {
+        for (int i=0; i<n-1; i++) {
+            boolean isUpBlank = true;
+            boolean isDownBlank = true;
+            for (int j=k; j<k+m; j++) {
+                if (arr[i][j] == 1) {
+                    isUpBlank = false;
+                    break;
                 }
-            }else{
-                start = i+1;    
+
+                if (arr[i+1][j] == 1) {
+                    isDownBlank = false;
+                    break;
+                }
+            }
+
+            if (isUpBlank && !isDownBlank) {
+                return i;
             }
         }
-        return -1;
+
+        return n-1;
     }
 }
