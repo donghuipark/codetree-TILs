@@ -33,12 +33,12 @@ public class Main{
                 if (count[i][j] == 1) {
                     int max = grid[i][j];
                     for(int d=0;d<4;d++){
-                        if (isRange(i + dx[d], j + dy[d])) {
-                            if (max < grid[i + dx[d]][j + dy[d]]) {
-                                max = grid[i+dx[d]][j+dy[d]];
-                            }
+                        nx =i;
+                        ny =j;
+                        if (isRange(i + dx[d], j + dy[d]) && max < grid[i + dx[d]][j + dy[d]]) {
+                            max = grid[i+dx[d]][j+dy[d]];
                             nx = i + dx[d];
-                            ny = j + dy[d];
+                            ny = j + dy[d];    
                         }
                     }
                     newCount[nx][ny] += 1;
