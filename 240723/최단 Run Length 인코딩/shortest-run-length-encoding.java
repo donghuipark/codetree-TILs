@@ -1,51 +1,50 @@
 import java.util.Scanner;
 
 public class Main {
-
-    public static int runLengthEncoding(String str) {
-        StringBuilder result = new StringBuilder();
-        char c = str.charAt(0);
-        int cnt = 1;
-        int size = str.length();
-
-        for (int i = 1; i < size; i++) {
-            if (str.charAt(i) != c) {
-                result.append(c).append(cnt);
-                c = str.charAt(i);
-                cnt = 1;
-            } else {
-                cnt++;
-            }
-        }
-        if (cnt > 1 || str.charAt(size - 1) != str.charAt(size - 2)) {
-            result.append(c).append(cnt);
-        }
-
-        return result.length();
-    }
-
-    public static int shiftStr(String str) {
-        int answer = Integer.MAX_VALUE;
-        int size = str.length();
-        char[] arr = str.toCharArray();
-
-        for (int i = 0; i < size; i++) {
-            // Right shift
-            char lastElement = arr[size - 1];
-            System.arraycopy(arr, 0, arr, 1, size - 1);
-            arr[0] = lastElement;
-
-            // Compare
-            answer = Math.min(answer, runLengthEncoding(new String(arr)));
-        }
-        return answer;
-    }
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        String inputStr = scanner.next();
+        
+        String A = scanner.nextLine();
         scanner.close();
+        
+        System.out.println(minRLELength(A));
+    }
 
-        System.out.println(shiftStr(inputStr));
+    public static int minRLELength(String A) {
+        int n = A.length();
+        int minLength = Integer.MAX_VALUE;
+
+        // 모든 가능한 shift를 확인
+        for (int i = 0; i < n; i++) {
+            String shifted = rightShift(A, i);
+            int rleLength = runLengthEncodingLength(shifted);
+            minLength = Math.min(minLength, rleLength);
+        }
+        return minLength;
+    }
+
+    public static String rightShift(String s, int k) {
+        int n = s.length();
+        k = k % n; // k가 n보다 클 경우를 대비
+        return s.substring(n - k) + s.substring(0, n - k);
+    }
+
+    public static int runLengthEncodingLength(String s) {
+        int n = s.length();
+        int rleLength = 0;
+        int count = 1;
+
+        for (int i = 1; i < n; i++) {
+            if (s.charAt(i) == s.charAt(i - 1)) {
+                count++;
+            } else {
+                rleLength += 1 + String.valueOf(count).length();
+                count = 1;
+            }
+        }
+        // 마지막 문자 그룹 처리
+        rleLength += 1 + String.valueOf(count).length();
+
+        return rleLength;
     }
 }
