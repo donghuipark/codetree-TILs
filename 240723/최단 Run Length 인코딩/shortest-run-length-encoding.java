@@ -1,44 +1,51 @@
 import java.util.Scanner;
 
-public class Main{
-    private static String str;
-    private static int shift(int amount){
-        //옮길거 빼기
-        String tmp ="";
-        for(int i=str.length()-amount;i<str.length();i++){
-            tmp += str.charAt(i);
-        }
-        //앞에 붙이기..?
-        for(int i=0; i<str.length()-amount;i++){
-            tmp += str.charAt(i);
-        }
-        
-        int cnt =1;
-        char pre = tmp.charAt(0);
-        for(int i=1;i<tmp.length();i++){
-            char cur = tmp.charAt(i);
-            if (pre == cur) {
-                continue;
-            }else{
-                cnt++;
-                pre = cur;
-            }
-            
-        }
-        if (cnt == 1) {
-            return 3;
-        }
-        return 2*cnt;
-    }
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        str = sc.next();
-        sc.close();
+public class Main {
 
-        int result = Integer.MAX_VALUE;
-        for(int i=0;i<str.length();i++){
-            result = Math.min(result, shift(i));
+    public static int runLengthEncoding(String str) {
+        StringBuilder result = new StringBuilder();
+        char c = str.charAt(0);
+        int cnt = 1;
+        int size = str.length();
+
+        for (int i = 1; i < size; i++) {
+            if (str.charAt(i) != c) {
+                result.append(c).append(cnt);
+                c = str.charAt(i);
+                cnt = 1;
+            } else {
+                cnt++;
+            }
         }
-        System.out.println(result);
+        if (cnt > 1 || str.charAt(size - 1) != str.charAt(size - 2)) {
+            result.append(c).append(cnt);
+        }
+
+        return result.length();
+    }
+
+    public static int shiftStr(String str) {
+        int answer = Integer.MAX_VALUE;
+        int size = str.length();
+        char[] arr = str.toCharArray();
+
+        for (int i = 0; i < size; i++) {
+            // Right shift
+            char lastElement = arr[size - 1];
+            System.arraycopy(arr, 0, arr, 1, size - 1);
+            arr[0] = lastElement;
+
+            // Compare
+            answer = Math.min(answer, runLengthEncoding(new String(arr)));
+        }
+        return answer;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String inputStr = scanner.next();
+        scanner.close();
+
+        System.out.println(shiftStr(inputStr));
     }
 }
