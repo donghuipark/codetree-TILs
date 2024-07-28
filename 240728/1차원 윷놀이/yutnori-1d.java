@@ -46,7 +46,9 @@ public class Main{
 
         moves = new int[n];
         position = new int[k];
-        
+        for(int i=0;i<k;i++){
+            position[i] = 1;
+        }
         st = new StringTokenizer(br.readLine());
         for(int i=0;i<n;i++){
             moves[i] = Integer.parseInt(st.nextToken());
