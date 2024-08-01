@@ -1,54 +1,71 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class Main {
-    private static final int INF = 1000000000;
     private static int n;
     private static int[][] cost;
-    private static int[][] dp;
-    private static int VISITED_ALL;
+    private static boolean[] visited;
+    private static List<Integer> list = new ArrayList<>();
+    private static int ans;
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        n = scanner.nextInt();
-        cost = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                cost[i][j] = scanner.nextInt();
+    private static void backtracking(int curPos){
+        //마지막 조건 (다 픽했을때)
+        if (curPos == n) {
+            int total =0;
+            for(int i=0; i<list.size()-1; i++){
+                int curCost = cost[list.get(i)][list.get(i+1)];
+                if (curCost == 0) {
+                    return;
+                }
+                total += curCost;
             }
-        }
 
-        dp = new int[n][1 << n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < (1 << n); j++) {
-                dp[i][j] = -1;
+            //이제 다시 돌아가는거 봐야한다.
+            int lastPos = list.get(list.size()-1);
+            int backCost = cost[lastPos][0];
+            if (backCost == 0) {
+                return;
             }
+            ans = Math.min(ans, total + backCost);
+            return;
         }
+        
+        for(int i=1;i<n;i++){
+            if (visited[i]) {
+                continue;
+            }
+            //픽하는경우
+            list.add(i);
+            visited[i] = true;
 
-        VISITED_ALL = (1 << n) - 1;
-        int result = tsp(0, 1);  // 시작 지점은 0번 지점, 1 << 0 = 1 (0번 지점만 방문한 상태)
-        System.out.println(result);
+            backtracking(curPos+1);
+
+            //픽 x
+            visited[i] = false;
+            list.remove(list.size()-1);
+        }
     }
+    public static void main(String[] args) throws NumberFormatException, IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
 
-    private static int tsp(int currentPosition, int visited) {
-        if (visited == VISITED_ALL) {
-            return cost[currentPosition][0] != 0 ? cost[currentPosition][0] : INF;
-        }
-
-        if (dp[currentPosition][visited] != -1) {
-            return dp[currentPosition][visited];
-        }
-
-        int minCost = INF;
-        for (int next = 0; next < n; next++) {
-            if ((visited & (1 << next)) == 0 && cost[currentPosition][next] != 0) {
-                int newVisited = visited | (1 << next);
-                int currentCost = cost[currentPosition][next] + tsp(next, newVisited);
-                minCost = Math.min(minCost, currentCost);
+        n = Integer.parseInt(br.readLine());
+        cost = new int[n][n];
+        visited = new boolean[n];
+        visited[0] = true;
+        list.add(0);
+        for(int i=0;i<n; i++){
+            st = new StringTokenizer(br.readLine());
+            for(int j=0;j<n;j++){
+                cost[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        dp[currentPosition][visited] = minCost;
-        return minCost;
+        backtracking(1);
+        System.out.println(ans);
     }
 }
