@@ -10,7 +10,7 @@ public class Main {
     private static int[][] cost;
     private static boolean[] visited;
     private static List<Integer> list = new ArrayList<>();
-    private static int ans;
+    private static int ans = Integer.MAX_VALUE;
 
     private static void backtracking(int curPos){
         //마지막 조건 (다 픽했을때)
@@ -34,7 +34,7 @@ public class Main {
             return;
         }
         
-        for(int i=1;i<n;i++){
+        for(int i=0;i<n;i++){
             if (visited[i]) {
                 continue;
             }
