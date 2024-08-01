@@ -8,24 +8,19 @@ public class Main {
     private static int[][] grid;
     private static boolean[][] visited;
     private static int ans = 0;
-    private static int[] dx = {-1, 0};
+    private static int[] dx = {1, 0};
     private static int[] dy = {0, 1};
-    private static boolean dfs(int x, int y){
-        boolean res = false;
-
-        if (x == n-1 && y == m-1) {
-            res = true;
-        }
+    private static void dfs(int x, int y){
+        
         for(int d=0; d<2; d++){
             int nx = x + dx[d];
             int ny = y + dy[d];
 
             if (canGo(nx, ny)) {
                 visited[nx][ny] = true;
-                res = dfs(nx, ny);    
+                dfs(nx, ny);    
             }
         }
-        return res;
     }
     private static boolean canGo(int x, int y){
         if (inRange(x, y)) {
@@ -57,11 +52,10 @@ public class Main {
         }
         visited[0][0] =true;        
         
-        if (dfs(0, 0)) {
-            ans = 1;
-        }
-        else{
-            ans = 0;
+        dfs(0, 0);
+        
+        if (visited[n-1][m-1]) {
+            ans=1;
         }
         System.out.println(ans);
             
