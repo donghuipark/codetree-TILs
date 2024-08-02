@@ -60,6 +60,19 @@ public class Main {
         push(r1, c1, 0);
         bfs();
 
-        System.out.println(grid[r2][c2] != 0 ? grid[r2][c2] : -1);
+        int ans = -1;
+        if (r1 == r2 && c1 == c2) {
+            ans = 1;
+        }
+        else{
+            if (grid[r2][c2] != 0) {
+                ans = grid[r2][c2];
+            }
+            else{
+                ans = -1;
+            }
+        }
+
+        System.out.println(ans);
     }
 }
