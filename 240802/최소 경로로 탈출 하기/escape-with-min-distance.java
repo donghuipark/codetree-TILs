@@ -60,7 +60,6 @@ public class Main {
         visited[0][0] = true;
         distance[0][0] = 0;
         bfs(0);
-        
-        System.out.println(distance[n-1][m-1]);
+        System.out.println(distance[n-1][m-1] !=0 ? distance[n-1][m-1] : -1);
     }
 }
