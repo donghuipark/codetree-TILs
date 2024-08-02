@@ -62,7 +62,7 @@ public class Main {
 
         int ans = -1;
         if (r1 == r2 && c1 == c2) {
-            ans = 1;
+            ans = 0;
         }
         else{
             if (grid[r2][c2] != 0) {
