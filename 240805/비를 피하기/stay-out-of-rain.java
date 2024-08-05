@@ -83,7 +83,7 @@ public class Main {
                         System.out.print(-1 + " ");
                     }
                     else{
-                        System.out.println(score[i][j] + " ");
+                        System.out.print(score[i][j] + " ");
                     }
                 }
             }
