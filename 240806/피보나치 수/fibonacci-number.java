@@ -9,7 +9,7 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         n = Integer.parseInt(br.readLine());
 
-        dp = new int[n+1];
+        dp = new int[46];
 
         dp[1] = 1;
         dp[2] = 1;
