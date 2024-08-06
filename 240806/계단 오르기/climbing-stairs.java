@@ -10,15 +10,15 @@ public class Main {
         n = Integer.parseInt(br.readLine());
 
         dp = new int[1001];
-
+        
         dp[2] = 1;
         dp[3] = 1;
 
         for(int i=4; i<=n; i++){
-            dp[i] = dp[i-2] + dp[i-3];
+            dp[i] = (dp[i-2]%10007) + (dp[i-3]%10007);
         }
 
-        System.out.println(dp[n]);
+        System.out.println(dp[n]%10007);
 
 
     }
