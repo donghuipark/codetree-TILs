@@ -15,17 +15,18 @@ public class Main {
 
         arr = new int[n];
         dp = new int[n];
+        for(int i=0;i<n;i++){
+            dp[i] = Integer.MIN_VALUE;
+        }
 
         StringTokenizer st = new StringTokenizer(br.readLine());
         for(int i=0;i<n;i++){
             arr[i] = Integer.parseInt(st.nextToken());
         }
-        
+        dp[0] = 0;
         for(int i=0;i<n;i++){
-            dp[i] = 0;
-
             for(int j=0;j<i;j++){
-                if (dp[j] == 0) {
+                if (dp[j] == Integer.MIN_VALUE) {
                     continue;
                 }
                 if (i <= j + arr[j]) {
