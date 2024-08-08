@@ -30,8 +30,7 @@ public class Main {
 
                 for(int x2=0; x2<x1; x2++){
                     for(int y2=0; y2<y1; y2++){
-                        if (grid[x1][y1] > grid[x2][y2] &&
-                        grid[x1][y1] > grid[0][0]) {
+                        if (grid[x1][y1] > grid[x2][y2] ) {
                             dp[x1][y1] = Math.max(dp[x1][y1], dp[x2][y2]+1);
                         }
                     }
