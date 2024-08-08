@@ -21,7 +21,7 @@ public class Main {
             dp[i] = 1;
 
             for(int j=0;j<i;j++){
-                if (arr[i] < arr[j] && dp[i]+1 > dp[j]) {
+                if (arr[i] < arr[j] && dp[j]+1 > dp[i]) {
                     dp[i] = dp[j]+1;
                 }
             }
