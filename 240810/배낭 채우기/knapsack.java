@@ -48,7 +48,12 @@ public class Main {
                 }
             }
         }
-        System.out.println(dp[n][m]);
+          int ans = 0;
+
+        for(int j = 0; j <= m; j++)
+            ans = Math.max(ans, dp[n][j]);
+
+        System.out.print(ans);
 
     }
 }
