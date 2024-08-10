@@ -25,17 +25,17 @@ public class Main {
             }    
         }
 
-        for(int i=0;i<=m;i++){
-            bag[i] = Integer.MIN_VALUE;
-        }
-        bag[0] = 0;
+        // for(int i=0;i<=m;i++){
+        //     bag[i] = Integer.MIN_VALUE;
+        // }
+        // bag[0] = 0;
 
         for(int i=0;i<n;i++){//jewel weight, value
             for(int j=m;j>=0;j--){//bag weight
                 if (j >= jewel[i][0]) {
-                    if (bag[j-jewel[i][0]] != Integer.MIN_VALUE) {
+                    //if (bag[j-jewel[i][0]] != Integer.MIN_VALUE) {
                         bag[j] = Math.max(bag[j], bag[j-jewel[i][0]] + jewel[i][1]);
-                    }
+                    //}
                 }
             }
         }
