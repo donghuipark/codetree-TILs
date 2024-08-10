@@ -30,7 +30,12 @@ public class Main {
                 dp[i][j] = Integer.MIN_VALUE;
             }
         }
-        dp[0][0] = 0;
+        for(int i=0;i<=n;i++){
+            dp[i][0] = 0;
+        }
+        for(int j=0;j<=m;j++){
+            dp[0][j] = 0;
+        }
 
         for(int i=1;i<=n;i++){
             for(int j=0;j<=m;j++){
