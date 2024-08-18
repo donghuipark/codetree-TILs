@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    private static final int offset = 1000000;
+    private static final int offset = 100000;
     private static int n, sum;
     private static int[] arr;
     private static int[][] dp;
