@@ -4,40 +4,51 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    private static final int OFFSET = 100000;
+    private static int n, m;
+    private static int[] arr;
+    private static int[][] dp;
+
+    public static void main(String[] args) throws NumberFormatException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
-        int[] arr = new int[n];
+
+        n = Integer.parseInt(br.readLine());
+        arr = new int[n+1];
 
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int totalSum = 0;
-        for (int i = 0; i < n; i++) {
+        for(int i=1; i<=n;i++){
             arr[i] = Integer.parseInt(st.nextToken());
-            totalSum += arr[i];
+            m += arr[i];
         }
 
-        int halfSum = totalSum / 2;
-        boolean[][] dp = new boolean[n + 1][halfSum + 1];
-        dp[0][0] = true;
-
-        for (int i = 1; i <= n; i++) {
-            int current = arr[i - 1];
-            for (int j = halfSum; j >= current; j--) {
-                dp[i][j] = dp[i - 1][j] || dp[i - 1][j - current];
-            }
-            for (int j = 0; j < current; j++) {
-                dp[i][j] = dp[i - 1][j];
+        dp = new int[n+1][2*OFFSET+1];
+        for(int i=0;i<=n;i++){
+            for(int j=-m;j<=m;j++){
+                dp[i][j+OFFSET] = Integer.MIN_VALUE;
             }
         }
+        dp[0][OFFSET] = 0;
 
-        int result = 0;
-        for (int j = halfSum; j >= 0; j--) {
-            if (dp[n][j]) {
-                result = j;
-                break;
+        for(int i=1;i<=n;i++){
+            for(int j=-m;j<=m;j++){
+                //a에 들어가는경우
+                if (j- arr[i] >= -m && j - arr[i] <=m && dp[i-1][j-arr[i]+OFFSET] != Integer.MIN_VALUE) {
+                    dp[i][j + OFFSET] = Math.max(dp[i][j+OFFSET], dp[i-1][j-arr[i] + OFFSET] + arr[i]);
+                }
+
+                //b에 들어가는경우
+                if (j + arr[i] >= -m && j+arr[i] <=m && dp[i-1][j+arr[i]+OFFSET] != Integer.MIN_VALUE) {
+                    dp[i][j+OFFSET] = Math.max(dp[i][j+OFFSET], dp[i-1][j+arr[i]+OFFSET]);
+                }
+                 // 그룹 C에 i번째 원소를 추가하는 경우
+                if (dp[i - 1][j + OFFSET] != Integer.MIN_VALUE) {
+                    dp[i][j + OFFSET] = Math.max(dp[i][j + OFFSET], dp[i - 1][j + OFFSET]);
+                    }
+        
             }
+            System.out.print(dp[n][0 + OFFSET]);
         }
-
-        System.out.println(result);
     }
+
+
 }
