@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 
 public class Main {
     private static final int offset = 1000000;
-    private static int n;
+    private static int n, sum;
     private static int[] arr;
     private static int[][] dp;
     public static void main(String[] args) throws NumberFormatException, IOException {
@@ -14,7 +14,6 @@ public class Main {
         n = Integer.parseInt(br.readLine());
         arr = new int[n+1];
 
-        int sum = 0;
         StringTokenizer st = new StringTokenizer(br.readLine());
         for(int i=1;i<=n;i++){
             arr[i] = Integer.parseInt(st.nextToken());
