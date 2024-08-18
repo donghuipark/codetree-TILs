@@ -1,50 +1,42 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
-    private static int n;
-    private static int[] arr;
-    private static boolean[][] dp;
 
-    public static void main(String[] args) throws NumberFormatException, IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
 
-        n = Integer.parseInt(br.readLine());
-        arr = new int[n+1];
-
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int sum = 0;
-        for(int i=1; i<=n; i++){
-            arr[i] = Integer.parseInt(st.nextToken());
-            sum += arr[i];
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
         }
 
-        // DP 테이블 초기화
-        int halfSum = sum / 2;
-        dp = new boolean[n+1][halfSum+1];
-        dp[0][0] = true;  // 0개의 숫자로 합 0을 만드는 것은 항상 가능
+        System.out.println(maxEqualSumPartition(arr, n));
+    }
 
-        for(int i=1; i<=n; i++) {
-            for(int j=halfSum; j>=0; j--) {
-                if (j >= arr[i]) {
-                    dp[i][j] = dp[i-1][j] || dp[i-1][j-arr[i]];
-                } else {
-                    dp[i][j] = dp[i-1][j];
+    public static int maxEqualSumPartition(int[] arr, int n) {
+        int sum = Arrays.stream(arr).sum();
+        int halfSum = sum / 2;
+
+        int[][] dp = new int[n + 1][halfSum + 1];
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j <= halfSum; j++) {
+                dp[i][j] = dp[i - 1][j];
+                if (j >= arr[i - 1]) {
+                    dp[i][j] = Math.max(dp[i][j], dp[i - 1][j - arr[i - 1]] + arr[i - 1]);
                 }
             }
         }
 
-        // 가능한 최대의 동일한 합 찾기
-        int ans = 0;
+        // 최대의 동일한 합을 찾는다.
         for (int j = halfSum; j >= 0; j--) {
-            if (dp[n][j]) {
-                ans = j;
-                break;
+            if (dp[n][j] == j) {
+                return j;
             }
         }
 
-        System.out.println(ans);
+        return 0;
     }
 }
