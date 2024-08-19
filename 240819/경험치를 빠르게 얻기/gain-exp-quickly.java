@@ -4,20 +4,15 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    private static int n, m;
-    private static int[] exp;
-    private static int[] time;
-    private static int[] dp;
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
+        int n = Integer.parseInt(st.nextToken());  // 퀘스트 수
+        int m = Integer.parseInt(st.nextToken());  // 목표 경험치
 
-        exp = new int[n];
-        time = new int[n];
+        int[] exp = new int[n];
+        int[] time = new int[n];
 
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
@@ -25,25 +20,28 @@ public class Main {
             time[i] = Integer.parseInt(st.nextToken());
         }
 
-        // dp 배열의 크기는 경험치의 합 + 1
-        dp = new int[m + 1];
-
-        // dp 배열을 무한대로 초기화
-        for (int i = 0; i <= m; i++) {
+        // DP 배열 초기화: 크기는 m+1 이상으로 설정하고 초기값을 최대값으로 설정
+        int maxExp = 1000000;
+        int[] dp = new int[maxExp + 1];
+        for (int i = 1; i <= maxExp; i++) {
             dp[i] = Integer.MAX_VALUE;
         }
-        dp[0] = 0;  // 0 경험치를 얻기 위한 시간은 0
+        dp[0] = 0;
 
         for (int i = 0; i < n; i++) {
-            // 뒤에서부터 dp 배열을 갱신
-            for (int j = m; j >= exp[i]; j--) {
+            for (int j = maxExp; j >= exp[i]; j--) {
                 if (dp[j - exp[i]] != Integer.MAX_VALUE) {
                     dp[j] = Math.min(dp[j], dp[j - exp[i]] + time[i]);
                 }
             }
         }
 
-        int result = dp[m];
+        // m 이상에서 최소 시간을 찾기
+        int result = Integer.MAX_VALUE;
+        for (int i = m; i <= maxExp; i++) {
+            result = Math.min(result, dp[i]);
+        }
+
         System.out.println(result == Integer.MAX_VALUE ? -1 : result);
     }
 }
