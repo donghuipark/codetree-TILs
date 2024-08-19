@@ -1,35 +1,13 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
     private static int n, m;
     private static int[] exp;
     private static int[] time;
-    private static List<int[]> pick = new ArrayList<>();
-    private static int res = Integer.MAX_VALUE;
-
-    private static void backtracking(int idx, int sum) {
-        if (sum >= m) {
-            int times = 0;
-            for (int[] tmp : pick) {
-                times += tmp[1];
-            }
-            res = Math.min(res, times);
-            return;
-        }
-
-        for (int i = idx; i < n; i++) {
-            // 선택
-            pick.add(new int[]{exp[i], time[i]});
-            backtracking(i + 1, sum + exp[i]);  // i + 1로 호출하여 중복 선택 방지
-            // 선택 취소
-            pick.remove(pick.size() - 1);
-        }
-    }
+    private static int[] dp;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -47,7 +25,25 @@ public class Main {
             time[i] = Integer.parseInt(st.nextToken());
         }
 
-        backtracking(0, 0);
-        System.out.println(res == Integer.MAX_VALUE ? -1 : res);
+        // dp 배열의 크기는 경험치의 합 + 1
+        dp = new int[m + 1];
+
+        // dp 배열을 무한대로 초기화
+        for (int i = 0; i <= m; i++) {
+            dp[i] = Integer.MAX_VALUE;
+        }
+        dp[0] = 0;  // 0 경험치를 얻기 위한 시간은 0
+
+        for (int i = 0; i < n; i++) {
+            // 뒤에서부터 dp 배열을 갱신
+            for (int j = m; j >= exp[i]; j--) {
+                if (dp[j - exp[i]] != Integer.MAX_VALUE) {
+                    dp[j] = Math.min(dp[j], dp[j - exp[i]] + time[i]);
+                }
+            }
+        }
+
+        int result = dp[m];
+        System.out.println(result == Integer.MAX_VALUE ? -1 : result);
     }
 }
