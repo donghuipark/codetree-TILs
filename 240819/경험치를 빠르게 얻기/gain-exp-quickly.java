@@ -4,44 +4,54 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
+    private static int n, m, t;
+    private static int[] exp;
+    private static int[] runtime;
+    private static int[][] dp;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int n = Integer.parseInt(st.nextToken());  // 퀘스트 수
-        int m = Integer.parseInt(st.nextToken());  // 목표 경험치
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
 
-        int[] exp = new int[n];
-        int[] time = new int[n];
+        exp = new int[n+1];
+        runtime = new int[n+1];
 
-        for (int i = 0; i < n; i++) {
+        for(int i=1;i<=n;i++){
             st = new StringTokenizer(br.readLine());
             exp[i] = Integer.parseInt(st.nextToken());
-            time[i] = Integer.parseInt(st.nextToken());
+            runtime[i] = Integer.parseInt(st.nextToken());
+
+            t += runtime[i];
         }
 
-        // DP 배열 초기화: 크기는 m+1 이상으로 설정하고 초기값을 최대값으로 설정
-        int maxExp = 1000000;
-        int[] dp = new int[maxExp + 1];
-        for (int i = 1; i <= maxExp; i++) {
-            dp[i] = Integer.MAX_VALUE;
-        }
-        dp[0] = 0;
-
-        for (int i = 0; i < n; i++) {
-            for (int j = maxExp; j >= exp[i]; j--) {
-                if (dp[j - exp[i]] != Integer.MAX_VALUE) {
-                    dp[j] = Math.min(dp[j], dp[j - exp[i]] + time[i]);
-                }
+        dp = new int[n+1][t+1];
+        for(int i=0;i<=n;i++){
+            for(int j=0;j<=t;j++){
+                dp[i][j] = Integer.MIN_VALUE;
             }
         }
+        dp[0][0]=0;
 
-        // m 이상에서 최소 시간을 찾기
-        int result = Integer.MAX_VALUE;
-        for (int i = m; i <= maxExp; i++) {
-            result = Math.min(result, dp[i]);
+        // dp[i][j] = 값은 i번째까지 고려했을때
+        // j겸치 까지 최대 받을 수 있는 것이 들어온다.
+        for(int i=1;i<=n;i++){
+            for(int j=0;j<=t;j++){
+                if (j - runtime[i] >= 0) {
+                    dp[i][j] = Math.max(dp[i][j] , dp[i-1][j-runtime[i]]+exp[i]);
+                }
+                dp[i][j] = Math.max(dp[i][j] , dp[i-1][j]);
+            }
         }
-
-        System.out.println(result == Integer.MAX_VALUE ? -1 : result);
+        
+        //이제 m겸치 이상 중 최소 시간 계산
+        int ans = Integer.MAX_VALUE;
+        for(int j=0;j<=t;j++){
+            if (dp[n][j] >=m) {
+                ans = Math.min(ans, j);
+            }
+        }
+        System.out.println(ans == Integer.MAX_VALUE ? -1 : ans);
     }
 }
