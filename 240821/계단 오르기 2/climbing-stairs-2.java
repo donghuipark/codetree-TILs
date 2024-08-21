@@ -33,18 +33,12 @@ public class Main {
 
         for(int i=3;i<=n;i++){
             for(int j=0;j<4;j++){
-                if (j==0) {
-                    dp[i][j] = dp[i-2][j] + arr[i];
-                    continue;
+                if (j>0 && dp[i-1][j-1] != Integer.MIN_VALUE) {
+                    dp[i][j] = Math.max(dp[i][j] , dp[i-1][j-1]+ arr[i]);
                 }
-                if (dp[i-1][j-1] != Integer.MIN_VALUE && dp[i-2][j] != Integer.MIN_VALUE) {
-                    
-                    if (j<=2) {
-                        dp[i][j] = Math.max(dp[i-1][j-1] + arr[i], dp[i-2][j] + arr[i]);
-                    }
-                    else{
-                        dp[i][j] = dp[i-2][j] + arr[i];
-                    }
+
+                if (dp[i-2][j] != Integer.MIN_VALUE) {
+                    dp[i][j] = Math.max(dp[i][j] , dp[i-2][j]+arr[i]);
                 }
             }
         }
