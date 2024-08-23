@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Main{
+public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -25,15 +25,16 @@ public class Main{
         Arrays.sort(player1);
         Arrays.sort(player2);
 
-        // 두 번째 플레이어가 얻을 수 있는 최대 점수를 계산
         int score = 0;
-        int j = 0; // 두 번째 플레이어의 인덱스
+        int i = 0, j = 0;
 
-        for (int i = 0; i < n; i++) {
-            if (j < n && player2[j] < player1[i]) {
-                score += player2[j]; // 남우가 점수를 얻음
-                j++; // 남우의 카드 버리기
+        // 두 플레이어의 카드를 비교하며 남우가 이길 수 있는 경우 최대한 점수를 얻도록 함
+        while (i < n && j < n) {
+            if (player2[j] < player1[i]) {
+                score += player2[j];
+                j++;
             }
+            i++;
         }
 
         // 결과 출력
