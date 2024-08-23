@@ -1,43 +1,60 @@
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
-public class Main {
+public class Main{
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    private static int n;
+    private static int[] arr1;
+    private static int[] arr2;
+    private static int[][] dp;
 
-        int n = scanner.nextInt();
-        int[] player1 = new int[n];
-        int[] player2 = new int[n];
+    public static void Main(String[] args) throws IOExcpetion{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
 
-        for (int i = 0; i < n; i++) {
-            player1[i] = scanner.nextInt();
+        n = Integer.parseInt(br.readLine());
+
+        arr1 = new int[n+1];
+        arr2 = new int[n+1];
+        
+        st = new StringTokenizer(br.readLine());
+        for(int i=1;i<=n;i++){
+            arr1[i] = Integer.parseInt(st.nextToken());
         }
 
-        for (int i = 0; i < n; i++) {
-            player2[i] = scanner.nextInt();
+        st = new StringTokenizer(br.readLine());
+        for(int i=1;i<=n;i++){
+            arr2[i] = Integer.parseInt(st.nextToken());
         }
 
-        // DP 테이블 초기화
-        int[][] dp = new int[n + 1][n + 1];
-
-        // DP로 최대 점수 계산
-        for (int i = n - 1; i >= 0; i--) {
-            for (int j = n - 1; j >= 0; j--) {
-                // 카드를 버리는 경우
-                dp[i][j] = dp[i + 1][j];
-                
-                // 남우의 카드가 상대의 카드보다 클 경우
-                if (player2[j] > player1[i]) {
-                    dp[i][j] = Math.max(dp[i][j], dp[i][j + 1] + player2[j]);
-                }
-
-                // 그 외의 경우
-                dp[i][j] = Math.max(dp[i][j], dp[i + 1][j + 1]);
+        dp = new int[n+1][n+1];
+        for(int i=0;i<=n;i++){
+            for(int j=0;j<=n;j++){
+                dp[i] = -1;
             }
         }
+        dp[0][0] = 0;
 
-        System.out.println(dp[0][0]);
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(dp[i][j] == -1) continue;
 
-        scanner.close();
-    }
+                if(arr1[i+1] > arr2[j+1]){
+                    dp[i+1][j] = Math.max(dp[i+1][j], dp[i][j]);
+                }
+                if(arr1[i+1] < arr2[j+1]){
+                    dp[i][j+1] = Math.max(dp[i][j]+arr2[j+1], dp[i][j+1]);
+                }
+                
+                dp[i+1][j+1] = Math.max(dp[i+1][j+1], dp[i][j]);
+            }
+        }
+        
+        int res = 0;
+        for(int i=0;i<=n;i++){
+            ans = Math.max(ans, dp[i][n]);
+            ans = Math.max(ans, dp[n][i]);
+        }
+        System.out.println(ans);
+
 }
