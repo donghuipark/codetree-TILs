@@ -4,44 +4,45 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // n: 숫자의 개수, k: 최대 허용 음수 개수
         int n = scanner.nextInt();
         int k = scanner.nextInt();
+        int[] arr = new int[n];
 
-        int[] numbers = new int[n];
         for (int i = 0; i < n; i++) {
-            numbers[i] = scanner.nextInt();
+            arr[i] = scanner.nextInt();
         }
 
-        int left = 0, right = 0;
+        int[][] dp = new int[n + 1][k + 1];
+
+        // dp 초기화: 최소값으로 설정
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= k; j++) {
+                dp[i][j] = Integer.MIN_VALUE;
+            }
+        }
+
+        dp[0][0] = 0;  // 아무것도 선택하지 않은 경우 초기값 설정
+
         int maxSum = Integer.MIN_VALUE;
-        int currentSum = 0;
-        int negativeCount = 0;
 
-        while (right < n) {
-            // 오른쪽 포인터가 가리키는 값을 윈도우에 추가
-            if (numbers[right] < 0) {
-                negativeCount++;
-            }
-            currentSum += numbers[right];
-
-            // 음수 개수가 k를 초과하면 왼쪽 포인터를 오른쪽으로 이동
-            while (negativeCount > k) {
-                if (numbers[left] < 0) {
-                    negativeCount--;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j <= k; j++) {
+                // 음수가 아닌 경우, 현재 값 포함
+                if (arr[i - 1] >= 0) {
+                    dp[i][j] = Math.max(dp[i - 1][j] + arr[i - 1], arr[i - 1]);
                 }
-                currentSum -= numbers[left];
-                left++;
+                // 음수인 경우, 음수 추가 가능 여부 확인
+                if (j > 0 && arr[i - 1] < 0) {
+                    dp[i][j] = Math.max(dp[i - 1][j - 1] + arr[i - 1], arr[i - 1]);
+                }
+                // 이전 상태 유지
+                dp[i][j] = Math.max(dp[i][j], dp[i - 1][j]);
+
+                // 현재 최대값 갱신
+                maxSum = Math.max(maxSum, dp[i][j]);
             }
-
-            // 음수 개수가 k 이하일 때, 최대 부분합을 갱신
-            maxSum = Math.max(maxSum, currentSum);
-
-            // 오른쪽 포인터를 한 칸 오른쪽으로 이동
-            right++;
         }
 
-        // 결과 출력
         System.out.println(maxSum);
 
         scanner.close();
