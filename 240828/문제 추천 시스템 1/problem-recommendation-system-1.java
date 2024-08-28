@@ -3,10 +3,13 @@ import java.util.*;
 public class Main {
     // 문제 정보를 저장할 맵 (문제 번호 -> 난이도)
     private static Map<Integer, Integer> problemMap = new HashMap<>();
-    // 최대 힙 (난이도가 높은 문제를 빠르게 찾기 위해 사용)
-    private static PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a, b) -> b[1] == a[1] ? b[0] - a[0] : b[1] - a[1]);
-    // 최소 힙 (난이도가 낮은 문제를 빠르게 찾기 위해 사용)
-    private static PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> a[1] == b[1] ? a[0] - b[0] : a[1] - b[1]);
+    // 난이도와 문제 번호를 저장할 TreeSet (자동 정렬)
+    private static TreeSet<int[]> problemSet = new TreeSet<>((a, b) -> {
+        if (a[1] == b[1]) {
+            return a[0] - b[0]; // 난이도가 같으면 문제 번호로 정렬
+        }
+        return a[1] - b[1]; // 기본적으로 난이도 순으로 정렬
+    });
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -46,29 +49,28 @@ public class Main {
 
     // 문제를 추가하는 메서드
     private static void addProblem(int p, int l) {
+        // 이미 있는 문제라면 기존의 문제를 삭제하고 갱신
+        if (problemMap.containsKey(p)) {
+            removeProblem(p, problemMap.get(p));
+        }
+        // 문제를 추가
         problemMap.put(p, l);
-        maxHeap.offer(new int[]{p, l});
-        minHeap.offer(new int[]{p, l});
+        problemSet.add(new int[]{p, l});
     }
 
     // 문제를 삭제하는 메서드
     private static void removeProblem(int p, int l) {
         problemMap.remove(p);
+        problemSet.remove(new int[]{p, l});
     }
 
     // 난이도가 가장 높은 문제를 추천하는 메서드
     private static int recommendMax() {
-        while (!problemMap.containsKey(maxHeap.peek()[0]) || problemMap.get(maxHeap.peek()[0]) != maxHeap.peek()[1]) {
-            maxHeap.poll();
-        }
-        return maxHeap.peek()[0];
+        return problemSet.last()[0];
     }
 
     // 난이도가 가장 낮은 문제를 추천하는 메서드
     private static int recommendMin() {
-        while (!problemMap.containsKey(minHeap.peek()[0]) || problemMap.get(minHeap.peek()[0]) != minHeap.peek()[1]) {
-            minHeap.poll();
-        }
-        return minHeap.peek()[0];
+        return problemSet.first()[0];
     }
 }
