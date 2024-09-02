@@ -11,8 +11,9 @@ public class Main{
         n = Integer.parseInt(br.readLine());
         int[] arr = new int[n];
 
+        StringTokenizer st = new StringTokenizer(br.readLine());
         for(int i=0;i<n;i++){
-            arr[i] = Integer.parseInt(br.readLine());
+            arr[i] = Integer.parseInt(st.nextToken());
         }
 
         PriorityQueue<Integer> pq = new PriorityQueue<>();
@@ -33,6 +34,6 @@ public class Main{
             }
         }
 
-        System.out.println("%.2f", maxAvg);
+        System.out.printf("%.2f", maxAvg);
     }
 }
