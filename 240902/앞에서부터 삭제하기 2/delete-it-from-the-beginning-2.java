@@ -19,16 +19,16 @@ public class Main {
 
         for(int k=1;k<n-1;k++){        
             PriorityQueue<Integer> pq = new PriorityQueue<>();
+            int sum = 0;
             for(int i=k;i<n;i++){
           //      System.out.println("arr[i] : " + arr[i]);
                 pq.add(arr[i]);
+                sum += arr[i];
             }
-            pq.poll();
+            sum -= pq.poll();
             int size = pq.size();
-            int sum = 0;
-            while(!pq.isEmpty()){
-                sum += pq.poll();
-            }
+            
+          
             max = Math.max(max, sum/size);
           //  System.out.println("k : " + k + " size = " + size + " max : " + max);
         }
