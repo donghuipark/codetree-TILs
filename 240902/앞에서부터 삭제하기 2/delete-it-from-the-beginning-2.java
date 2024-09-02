@@ -14,22 +14,25 @@ public class Main {
         }
         
         double maxAverage = Double.NEGATIVE_INFINITY;
-        
-        // Prefix Sum을 계산
-        int[] prefixSum = new int[n + 1];
-        for (int i = 1; i <= n; i++) {
-            prefixSum[i] = prefixSum[i - 1] + arr[i - 1];
-        }
-        
+
+        // 모든 가능한 K에 대해 반복
         for (int k = 1; k <= n - 2; k++) {
-            int minVal = Integer.MAX_VALUE;
+            PriorityQueue<Integer> pq = new PriorityQueue<>();
+            int sum = 0;
+            
+            // K번째 이후의 요소들을 PriorityQueue에 추가하면서 합을 계산
             for (int i = k; i < n; i++) {
-                minVal = Math.min(minVal, arr[i]);
+                pq.add(arr[i]);
+                sum += arr[i];
             }
             
-            int sum = prefixSum[n] - prefixSum[k] - minVal;
+            // 가장 작은 값을 하나 제거
+            sum -= pq.poll();
+
+            // 남은 요소들의 수
             int remainingCount = n - k - 1;
             
+            // 평균 계산
             double average = (double) sum / remainingCount;
             maxAverage = Math.max(maxAverage, average);
         }
