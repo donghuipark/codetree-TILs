@@ -1,43 +1,72 @@
 import java.util.*;
+import java.io.*;
 
-public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+public class Main{
+
+    private static int t, m;
+    private static int[] arr;
+
+    public static void main(String[] args) throws IOException{
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+
+        t = Integer.parseInt(br.readLine());
         
-        int t = scanner.nextInt();  // 테스트 케이스 개수
-        
-        for (int testCase = 0; testCase < t; testCase++) {
-            int m = scanner.nextInt();  // 수열의 크기
+        while(t-->0){
+            m = Integer.parseInt(br.readLine());
+            arr = new int[m];
+            st = new StringTokenizer(br.readLine());
             
-            PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
-            PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-            
-            StringBuilder result = new StringBuilder();
-            
-            for (int i = 1; i <= m; i++) {
-                int num = scanner.nextInt();
-                
-                if (maxHeap.isEmpty() || num <= maxHeap.peek()) {
-                    maxHeap.add(num);
-                } else {
-                    minHeap.add(num);
-                }
-                
-                // 균형을 맞추기 위해 힙 조정
-                if (maxHeap.size() > minHeap.size() + 1) {
-                    minHeap.add(maxHeap.poll());
-                } else if (minHeap.size() > maxHeap.size()) {
-                    maxHeap.add(minHeap.poll());
-                }
-                
-                // 홀수 번째 원소일 때만 중앙값을 출력
-                if (i % 2 == 1) {
-                    result.append(maxHeap.peek()).append(" ");
-                }
+            for(int i=0;i<m;i++){
+                arr[i] = Integer.parseInt(st.nextToken());
             }
             
-            // 결과 출력
-            System.out.println(result.toString().trim());
+            int median = arr[0];
+
+            PriorityQueue<Integer> maxHeap = new PriorityQueue<>();
+            PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+
+            System.out.print(median + " ");
+
+            for(int i=1;i<m;i++){
+                //1이지만 0부터 시작했기때문에 지금이 짝수인 경우
+                // 여기서는 arr[i]값이 어디에 들어갈지 정해야한다.
+                // arr[i]>median 이면 
+                if(i%2 == 1){
+                    if(arr[i] < median){
+                        maxHeap.add(-arr[i]);
+                    }
+                    else{
+                        minHeap.add(arr[i]);
+                    }
+                }
+                // 이제 홀수인 경우 
+                else{
+                    int tmp;
+                    if(maxHeap.size() > minHeap.size()){
+                        tmp = -maxHeap.poll();
+                    }
+                    else{
+                        tmp = minHeap.poll();
+                    }
+
+                    // tmp랑 arr[i], median 비교
+
+                    int[] nums = new int[]{tmp, arr[i], median};
+                    Arrays.sort(nums);
+
+                    maxHeap.add(-nums[0]);
+                    median = nums[1];
+                    minHeap.add(nums[2]);
+
+                    System.out.print(median + " ");
+                }
+            }
+
+            System.out.println();
+            
         }
+        
     }
 }
