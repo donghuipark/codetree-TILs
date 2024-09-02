@@ -1,33 +1,38 @@
+import java.io.*;
 import java.util.*;
 
-public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        
-        int N = scanner.nextInt();
-        int[] arr = new int[N];
-        
-        for (int i = 0; i < N; i++) {
-            arr[i] = scanner.nextInt();
+public class Main{
+
+    private static int n;
+
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        n = Integer.parseInt(br.readLine());
+        int[] arr = new int[n];
+
+        for(int i=0;i<n;i++){
+            arr[i] = Integer.parseInt(br.readLine());
         }
-        
-        double maxAverage = Double.NEGATIVE_INFINITY;
-        
-        // K를 1부터 N-2까지 탐색
-        for (int K = 1; K <= N - 2; K++) {
-            // K개의 원소를 삭제한 뒤 남은 배열을 가져옴
-            int[] remaining = Arrays.copyOfRange(arr, K, N);
-            Arrays.sort(remaining); // 정렬하여 가장 작은 값을 찾기 용이하게 함
-            
-            int sum = 0;
-            for (int i = 1; i < remaining.length; i++) {
-                sum += remaining[i];
+
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        int sum = 0;
+        double maxAvg = 0;
+
+        pq.add(arr[n-1]);
+        sum += arr[n-1];
+
+        for(int i=n-2;i>=1;i--){
+            pq.add(arr[i]);
+            sum += arr[i];
+
+            double avg = (double)(sum - pq.peek()) / (n-i-1);
+
+            if(maxAvg < avg){
+                maxAvg = avg;
             }
-            
-            double average = (double) sum / (remaining.length - 1);
-            maxAverage = Math.max(maxAverage, average);
         }
-        
-        System.out.printf("%.2f", maxAverage);
+
+        System.out.println("%.2f", maxAvg);
     }
 }
