@@ -1,38 +1,39 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
-    private static int n;
-    private static int[] arr;
-    public static void main(String[] args) throws IOException{
-        // 여기에 코드를 작성해주세요.
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        n = Integer.parseInt(br.readLine());
-        arr = new int[n];
+        
+        int n = Integer.parseInt(br.readLine());
+        int[] arr = new int[n];
         StringTokenizer st = new StringTokenizer(br.readLine());
-        for(int i=0;i<n;i++){
+
+        for (int i = 0; i < n; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
         }
         
-        double max = Integer.MIN_VALUE;
-
-        for(int k=1;k<n-1;k++){        
-            PriorityQueue<Integer> pq = new PriorityQueue<>();
-            int sum = 0;
-            for(int i=k;i<n;i++){
-          //      System.out.println("arr[i] : " + arr[i]);
-                pq.add(arr[i]);
-                sum += arr[i];
-            }
-            sum -= pq.poll();
-            int size = pq.size();
-            
-          
-            max = Math.max(max, sum/size);
-          //  System.out.println("k : " + k + " size = " + size + " max : " + max);
+        double maxAverage = Double.NEGATIVE_INFINITY;
+        
+        // Prefix Sum을 계산
+        int[] prefixSum = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            prefixSum[i] = prefixSum[i - 1] + arr[i - 1];
         }
-
-        System.out.println(String.format("%.2f", max));
+        
+        for (int k = 1; k <= n - 2; k++) {
+            int minVal = Integer.MAX_VALUE;
+            for (int i = k; i < n; i++) {
+                minVal = Math.min(minVal, arr[i]);
+            }
+            
+            int sum = prefixSum[n] - prefixSum[k] - minVal;
+            int remainingCount = n - k - 1;
+            
+            double average = (double) sum / remainingCount;
+            maxAverage = Math.max(maxAverage, average);
+        }
+        
+        System.out.printf("%.2f", maxAverage);
     }
 }
