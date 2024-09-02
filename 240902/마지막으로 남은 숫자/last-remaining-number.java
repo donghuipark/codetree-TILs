@@ -20,15 +20,15 @@ public class Main {
 
         int max1 = 0;
         int max2 = 0;
-        while(pq.size() > 1){
-            max1 = pq.poll();
-            max2 = pq.poll();
+        while(pq.size() >= 2){
+            max1 = -pq.poll();
+            max2 = -pq.poll();
 
             if(max1 == max2){
                 continue;
             }
             else{
-                pq.add(Math.abs(max1-max2));
+                pq.add(-Math.abs(max1-max2));
             }
         }
 
@@ -36,7 +36,7 @@ public class Main {
             System.out.println(-1);
         }
         else{
-            System.out.println(pq.peek());
+            System.out.println(-pq.peek());
         }
 
     }
