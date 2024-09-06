@@ -1,34 +1,21 @@
-import java.util.*;
-import java.io.*;
+import java.util.Scanner;
 
 public class Main {
-    private static int n;
-    public static void main(String[] args) throws IOException{
-        // 여기에 코드를 작성해주세요.
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
         
-        n = Integer.parseInt(br.readLine());
+        System.out.println(getMiniCoins(n));
+    }
 
-        int ans = 0;
-        if(n%2 == 1){
-            ans++;
-            n -= 2;
+    public static int getMiniCoins(int n) {
+        // 5원 동전 최대 개수를 구합니다.
+        for (int i = n / 5; i >= 0; i--) {
+            int remaining = n - (i * 5);  // 5원 동전을 사용한 후 남은 금액
+            if (remaining % 2 == 0) {  // 남은 금액이 2원 동전으로 나누어 떨어지면
+                return i + (remaining / 2);  // 5원 동전 개수 + 2원 동전 개수
+            }
         }
-        while(n>=5){
-            ans++;
-            n -= 5;
-        }
-        while(n>=2){
-            ans++;
-            n -= 2;
-        }
-    
-        if(n != 0){
-            System.out.println(-1);
-        }
-        else{
-            System.out.println(ans);
-        }
-        
+        return -1;  // 정확히 맞출 수 없는 경우
     }
 }
