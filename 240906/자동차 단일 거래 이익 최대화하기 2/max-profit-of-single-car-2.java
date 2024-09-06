@@ -23,6 +23,6 @@ public class Main {
             }
         }
 
-        System.out.println(ans);
+        System.out.println(ans >0 ? ans : 0);
     }
 }
