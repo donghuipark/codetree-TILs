@@ -64,9 +64,13 @@ public class Main {
 
             int minIdx = Lower(s);
             int maxIdx = Upper(e);
-            System.out.print("maxIdx : " + maxIdx + " minIdx : " + minIdx);
-            System.out.println(maxIdx - minIdx);
-
+            int res = maxIdx - minIdx;
+            if(res == -1){
+                System.out.println(0);
+            } 
+            else{
+                System.out.println(res+1);
+            }
         }
     }
 }
