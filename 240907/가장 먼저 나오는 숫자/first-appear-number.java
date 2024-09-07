@@ -24,7 +24,12 @@ public class Main {
             }
         }
 
-        return arr[minIdx] == target ? minIdx+1 : -1;
+        if(arr[minIdx] == target){
+            return minIdx + 1;
+        }
+        else{
+            return -1;
+        }
     }
 
     public static void main(String[] args) throws IOException{
