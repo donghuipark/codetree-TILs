@@ -9,9 +9,11 @@ public class Main {
         int left = 0;
         int right = n-1;
         int minIdx = n;
-        if(target < arr[0] && target > arr[n-1]){
+
+        if(target < arr[0] || target > arr[n-1]){
             return -1;
         }
+
         while(left <= right){
             int mid = (right + left) / 2;
 
