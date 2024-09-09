@@ -2,27 +2,26 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    private static int n;
+    private static long n;
 
-    private static boolean moo(int num){
+    private static boolean moo(long num){
         return num - ((num/5 + num/3 - num/15))  >= n;
     }
     public static void main(String[] args) throws IOException{
         // 여기에 코드를 작성해주세요.
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
 
-        n = Integer.parseInt(br.readLine());
-
-        int left = 1;
-        int right = n*15;
-        int ans = 1;
+        long left = 1;
+        long right = n*2;
+        long ans = Integer.MAX_VALUE;
         while(left <= right){
-            int mid = (left + right) / 2;
+            long mid = (left + right) / 2;
 
             if(moo(mid)){
                 // left ans mid right
                 right = mid - 1;
-                ans = mid;
+                ans = Math.min(ans, mid);
             }
             else {
                 // left mid ans right
