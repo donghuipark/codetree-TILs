@@ -39,7 +39,7 @@ public class Main {
         }
 
         int left = 1;
-        int ans = Integer.MIN_VALUE;
+        int ans = 0;
 
         while(left <= right){
             int mid = (right + left) / 2;
