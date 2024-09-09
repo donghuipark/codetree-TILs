@@ -2,15 +2,15 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    private static int s;
+    private static long s;
 
-    private static int binarySearch(int s){
-        int left = 1;
-        int right = s;
-        int maxIdx = -1;
+    private static long binarySearch(long s){
+        long left = 1;
+        long right = s;
+        long maxIdx = -1;
 
         while(left<= right){
-            int mid = (left + right) / 2;
+            long mid = (left + right) / 2;
             if(mid * (mid+1) /2 <= s){
                 // left mid a  right
                 left = mid + 1;
@@ -31,7 +31,7 @@ public class Main {
 
         s = Integer.parseInt(br.readLine());
 
-        int ans = binarySearch(s);
+        long ans = binarySearch(s);
 
         System.out.println(ans);
 
