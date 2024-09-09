@@ -1,25 +1,36 @@
 import java.util.*;
 import java.io.*;
 
-public class Main {
+public class Main{
     private static long n, k;
 
     public static void main(String[] args) throws IOException{
-        // 여기에 코드를 작성해주세요.
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
         n = Long.parseLong(br.readLine());
         k = Long.parseLong(br.readLine());
-        int len = (int)(n*n);
-        long[] arr = new long[len];
-        int cnt=0;
-        for(int i =1 ;i<=n;i++){
-            for(int j = 1;j<=n;j++){
-                arr[cnt++] = i*j;
+
+        long l =1;
+        long r = n*n;
+        long ans = 1;
+        while(l <= r){
+            long mid = (l + r) / 2;
+
+            long cnt = 0;
+            for(long i=1;i<=n;i++){
+                cnt += Math.min(n, mid/i);
+            }
+
+            if(cnt >= k){
+                r = mid - 1; 
+                ans = mid;
+            }
+            else{
+                l = mid + 1;
             }
         }
-        Arrays.sort(arr);
-        System.out.println(arr[(int)k-1]);
 
-
+        System.out.println(ans);
+        
     }
 }
