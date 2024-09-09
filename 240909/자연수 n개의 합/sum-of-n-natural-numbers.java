@@ -12,7 +12,7 @@ public class Main {
         s = sc.nextLong();
 
         long left = 1;
-        long right = s;
+        long right = 2000000000;
         long maxIdx = -1;
 
         while(left<= right){
