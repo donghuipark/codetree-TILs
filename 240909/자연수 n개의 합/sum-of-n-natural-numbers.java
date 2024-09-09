@@ -29,7 +29,7 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
-        s = Integer.parseInt(br.readLine());
+        s = Long.parseLong(br.readLine());
 
         long ans = binarySearch(s);
 
