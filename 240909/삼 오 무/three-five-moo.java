@@ -14,7 +14,7 @@ public class Main {
         n = Integer.parseInt(br.readLine());
 
         int left = 1;
-        int right = Integer.MAX_VALUE;
+        int right = n*2;
         int ans = 1;
         while(left <= right){
             int mid = (left + right) / 2;
