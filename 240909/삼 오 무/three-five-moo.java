@@ -4,8 +4,8 @@ import java.io.*;
 public class Main {
     private static int n;
 
-    private static int moo(int num){
-        return num - (num/5 + num/3 - num/15);
+    private static boolean moo(int num){
+        return num - (num/5 + num/3 - num/15)  >= n;
     }
     public static void main(String[] args) throws IOException{
         // 여기에 코드를 작성해주세요.
@@ -19,7 +19,7 @@ public class Main {
         while(left <= right){
             int mid = (left + right) / 2;
 
-            if(moo(mid) >= n){
+            if(moo(mid)){
                 // left ans mid right
                 right = mid - 1;
                 ans = mid;
