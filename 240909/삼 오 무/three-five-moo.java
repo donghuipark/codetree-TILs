@@ -18,9 +18,8 @@ public class Main {
         int ans = 1;
         while(left <= right){
             int mid = (left + right) / 2;
-            int cnt = moo(mid);
 
-            if(cnt >= n){
+            if(moo(mid) >= n){
                 // left ans mid right
                 right = mid - 1;
                 ans = mid;
