@@ -2,13 +2,14 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    private static long n, m;
+    private static long n;
+    private static int m;
     private static long[] arr;
 
     private static long simulate(long time){
         long cnt = 0;
 
-        for(long i=0;i<m;i++){
+        for(int i=0;i<m;i++){
             cnt += time/arr[i];
         }
 
@@ -41,10 +42,10 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         n = Long.parseLong(st.nextToken());
-        m = Long.parseLong(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
 
         arr = new long[m];
-        for(long i=0;i<m;i++){
+        for(int i=0;i<m;i++){
             arr[i] = Long.parseLong(br.readLine());
         }
         Arrays.sort(arr);
