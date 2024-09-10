@@ -24,7 +24,7 @@ public class Main {
                 }
             }
 
-            if(lastPlaced < start){
+            if(lastPlaced + distance <= start){
                 lastPlaced = start;
             }
         }
