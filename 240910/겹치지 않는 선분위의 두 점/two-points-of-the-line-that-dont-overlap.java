@@ -15,8 +15,9 @@ public class Main {
             long end = arr[i][1];
 
             while(lastPlaced + distance <= end){
-                cnt++;
                 lastPlaced += distance;
+                cnt++;
+               
 
                 if(cnt >= n){
                     return cnt;
@@ -60,8 +61,8 @@ public class Main {
 
         for(int i=0;i<m;i++){
             st = new StringTokenizer(br.readLine());
-            long s = Integer.parseInt(st.nextToken());
-            long e = Integer.parseInt(st.nextToken());
+            long s = Long.parseLong(st.nextToken());
+            long e = Long.parseLong(st.nextToken());
 
             arr[i][0] = s;
             arr[i][1] = e;
