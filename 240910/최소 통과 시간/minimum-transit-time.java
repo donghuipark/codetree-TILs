@@ -2,25 +2,25 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    private static int n, m;
-    private static int[] arr;
+    private static long n, m;
+    private static long[] arr;
 
-    private static int simulate(int time){
-        int cnt = 0;
+    private static long simulate(long time){
+        long cnt = 0;
 
-        for(int i=0;i<m;i++){
+        for(long i=0;i<m;i++){
             cnt += time/arr[i];
         }
 
         return cnt;
     }
-    private static int binarySearch(int target){
-        int left = 1;
-        int right = arr[m-1] * target;
-        int ans = -1;
+    private static long binarySearch(long target){
+        long left = 1;
+        long right = arr[m-1] * target;
+        long ans = -1;
 
         while(left <= right){
-            int mid = (right + left) / 2;
+            long mid = (right + left) / 2;
 
             if(simulate(mid) >= target){
                 ans = mid;
@@ -40,12 +40,12 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
+        n = Long.parseLong(st.nextToken());
+        m = Long.parseLong(st.nextToken());
 
-        arr = new int[m];
-        for(int i=0;i<m;i++){
-            arr[i] = Integer.parseInt(br.readLine());
+        arr = new long[m];
+        for(long i=0;i<m;i++){
+            arr[i] = Long.parseLong(br.readLine());
         }
         Arrays.sort(arr);
 
