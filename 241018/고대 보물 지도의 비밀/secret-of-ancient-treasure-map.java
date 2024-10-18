@@ -15,47 +15,37 @@ public class Main{
 
         arr = new int[n];
         st = new StringTokenizer(br.readLine());
-        for(int i=0;i<n;i++){
+        for(int i=0; i<n; i++){
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        dp = new int[n][2];
-        dp[0][0] = arr[0];
-        if(arr[0] <0){
-            dp[0][1] = 1;
+        // DP 배열 초기화
+        dp = new int[n][k+1];
+        for (int j = 0; j <= k; j++) {
+            dp[0][j] = arr[0]; // 첫 번째 값으로 초기화
         }
-        else{
-            dp[0][1] = 0;
+        
+        int ans = arr[0];  // 최대 합 초기화
+
+        // DP 계산
+        for (int i = 1; i < n; i++) {
+            if (arr[i] >= 0) {
+                // 양수일 때는 음수 개수에 변화가 없으므로 그대로 더해줌
+                for (int j = 0; j <= k; j++) {
+                    dp[i][j] = dp[i-1][j] + arr[i];
+                    ans = Math.max(ans, dp[i][j]);  // 최대값 갱신
+                }
+            } else {
+                // 음수일 때는 음수 개수가 하나 증가해야 함
+                dp[i][0] = Math.max(dp[i][0], arr[i]);  // 음수가 없을 때는 새로 시작할 수 있음
+                for (int j = 1; j <= k; j++) {
+                    dp[i][j] = Math.max(dp[i-1][j-1] + arr[i], dp[i][j]);
+                    ans = Math.max(ans, dp[i][j]);  // 최대값 갱신
+                }
+            }
         }
 
-        for(int i=1;i<n;i++){
-            
-            if(dp[i-1][0]+arr[i] > arr[i]){
-                if(arr[i] <0){
-                    dp[i][1] = dp[i-1][1]+1;
-                }
-                else{
-                    dp[i][1] = dp[i-1][1];
-                }
-                dp[i][0] = dp[i-1][0]+arr[i];
-            }
-            else{
-                if(arr[i] < 0){
-                    dp[i][1] = 1;
-                }
-                else{
-                    dp[i][1] = 0;
-                }
-                dp[i][0] = arr[i];
-            }
-        }
-        int max = Integer.MIN_VALUE;
-        for(int i=0;i<n;i++){
-            if(dp[i][1] <= k){
-                max = Math.max(max, dp[i][0]);
-            }
-        }
-        System.out.println(max);
-        
+        // 결과 출력
+        System.out.println(ans);
     }
 }
