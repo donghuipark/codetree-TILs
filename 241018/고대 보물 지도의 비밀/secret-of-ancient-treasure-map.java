@@ -32,7 +32,7 @@ public class Main{
             
             if(dp[i-1][0]+arr[i] > arr[i]){
                 if(arr[i] <0){
-                    dp[i][1] = dp[i-1][1]++;
+                    dp[i][1] = dp[i-1][1]+1;
                 }
                 else{
                     dp[i][1] = dp[i-1][1];
@@ -49,7 +49,6 @@ public class Main{
                 dp[i][0] = arr[i];
             }
         }
-
         int max = Integer.MIN_VALUE;
         for(int i=0;i<n;i++){
             if(dp[i][1] <= k){
@@ -57,5 +56,6 @@ public class Main{
             }
         }
         System.out.println(max);
+        
     }
 }
