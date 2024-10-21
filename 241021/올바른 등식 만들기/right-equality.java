@@ -4,7 +4,7 @@ import java.io.*;
 public class Main {
     private static int n, m;
     private static int[] arr;
-    private static int[][] dp;
+    private static long[][] dp;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -19,12 +19,12 @@ public class Main {
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        // dp 배열 크기: n번째에서 -20 <= sum <= 20을 표현하기 위해 41칸 사용 (인덱스를 +20 해서 사용)
-        dp = new int[n][41];
+        // dp 배열 크기: -20 <= sum <= 20을 표현하기 위해 41칸 사용 (인덱스를 +20 해서 사용)
+        dp = new long[n][41];
 
         // 첫 번째 숫자에 대한 초기화
         dp[0][arr[0] + 20] = 1;  // 첫 번째 숫자를 더한 경우
-        dp[0][-arr[0] + 20] = 1; // 첫 번째 숫자를 뺀 경우
+        dp[0][-arr[0] + 20] += 1; // 첫 번째 숫자를 뺀 경우
 
         // 동적 계획법을 통해 가능한 경우의 수 계산
         for (int i = 1; i < n; i++) {
