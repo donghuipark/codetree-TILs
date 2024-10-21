@@ -6,7 +6,7 @@ public class Main {
     private static int[] times;
     private static int simul(int k){
         //k명씩 올라갈 수 있음.
-        Queue<Integer> stage = new PriorityQueue<>();
+        PriorityQueue<Integer> stage = new PriorityQueue<>();
         int totalTime = 0;
         int index = 0;
 
@@ -16,9 +16,9 @@ public class Main {
 
         while(!stage.isEmpty()){
             int tempTime = stage.poll();
-
             totalTime += tempTime;
-            Queue<Integer> tempStage = new PriorityQueue<>();
+
+            PriorityQueue<Integer> tempStage = new PriorityQueue<>();
             while(!stage.isEmpty()){
                 tempStage.add(stage.poll() - tempTime);
             }
