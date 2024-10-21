@@ -25,7 +25,7 @@ public class Main {
 
        
         dp[0][arr[0] + 20]= 1;
-        dp[0][-arr[0] + 20] = 1;
+        dp[0][-arr[0] + 20] += 1;
 
         for(int i=1;i<n;i++){
             for(int sum = -20; sum<=20;sum++){
