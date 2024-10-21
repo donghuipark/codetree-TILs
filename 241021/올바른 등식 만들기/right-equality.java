@@ -4,40 +4,27 @@ import java.io.*;
 public class Main {
     private static int n, m;
     private static int[] arr;
+    private static int[][] dp;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
+        n = Integer.parseInt(st.nextToken());  // N 값
+        m = Integer.parseInt(st.nextToken());  // 목표 M 값
 
-        arr = new int[n];
+        arr = new int[n];  // 숫자 배열
         st = new StringTokenizer(br.readLine());
-        boolean allZeros = true;
         for (int i = 0; i < n; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
-            if (arr[i] != 0) {
-                allZeros = false; // 0이 아닌 숫자가 하나라도 있으면
-            }
         }
 
-        // 모든 숫자가 0일 때 특수 처리
-        if (allZeros) {
-            if (m == 0) {
-                System.out.println((long)Math.pow(2, n));  // 2^n 출력
-            } else {
-                System.out.println(0);  // m != 0인 경우 0
-            }
-            return;
-        }
+        // dp 배열 크기: n번째에서 -20 <= sum <= 20을 표현하기 위해 41칸 사용 (인덱스를 +20 해서 사용)
+        dp = new int[n][41];
 
-        // dp 배열 선언: -20 <= sum <= 20, 총 41칸
-        int[][] dp = new int[n][41];
-
-        // 첫 번째 숫자에 대해 초기화
+        // 첫 번째 숫자에 대한 초기화
         dp[0][arr[0] + 20] = 1;  // 첫 번째 숫자를 더한 경우
-        dp[0][-arr[0] + 20] += 1; // 첫 번째 숫자를 뺀 경우 (0일 때도 더하거나 빼는 경우 각각 추가)
+        dp[0][-arr[0] + 20] = 1; // 첫 번째 숫자를 뺀 경우
 
         // 동적 계획법을 통해 가능한 경우의 수 계산
         for (int i = 1; i < n; i++) {
