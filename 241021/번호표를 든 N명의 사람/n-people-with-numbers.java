@@ -25,8 +25,8 @@ public class Main {
 
             stage = tempStage;
 
-            //다시 넣어.
-            for(int i=0;i<k-stage.size()&& index<n;i++){
+            // 새로운 사람을 무대에 올리기
+            while (stage.size() <= k && index < n) {
                 stage.add(times[index++]);
             }
         }
