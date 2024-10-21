@@ -47,12 +47,13 @@ public class Main {
 
         int left = 1;
         int right = n;
-        int mid = 0;
+        int result = n;
         while(left<=right){
-            mid = (left+right) / 2;
+            int mid = (left+right) / 2;
 
             if(simul(mid) <= t){
                 // 올라가는 사람이 많은 거니깐... mide를 줄여야겠군.
+                result = mid;
                 right = mid - 1;
             }
             else{
@@ -60,6 +61,6 @@ public class Main {
                 left = mid + 1;
             }
         }
-        System.out.println(mid);
+        System.out.println(result);
     }
 }
