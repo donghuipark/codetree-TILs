@@ -13,6 +13,9 @@ public class Main {
     private static int bfs(boolean[][] visited, Queue<int[]> q, int mid){
         int cnt = 1;
         while(!q.isEmpty()){
+            if(cnt > n*n/2){
+                return cnt;
+            }
             int[] current = q.poll();
             int x = current[0];
             int y = current[1];
