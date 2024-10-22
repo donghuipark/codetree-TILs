@@ -7,24 +7,26 @@ public class Main {
     private static int[][] arr;
     private static int[] dx = {-1, 1, 0, 0};
     private static int[] dy = {0, 0, -1, 1};
+
     private static boolean isValid(int x, int y){
         return x>=0 && y>=0 && x<n && y<n;
     }
-    private static int bfs(boolean[][] visited, Queue<int[]> q, int mid){
+
+    private static int bfs(boolean[][] visited, int x, int y, int mid){
         int cnt = 1;
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[]{x, y});
+        visited[x][y] = true;
         while(!q.isEmpty()){
-            if(cnt > n*n/2){
-                return cnt;
-            }
             int[] current = q.poll();
-            int x = current[0];
-            int y = current[1];
+            int cx = current[0];
+            int cy = current[1];
 
             for(int d=0;d<4;d++){
-                int nx = x + dx[d];
-                int ny = y + dy[d];
+                int nx = cx + dx[d];
+                int ny = cy + dy[d];
 
-                if(isValid(nx, ny) && !visited[nx][ny] && Math.abs(arr[x][y]-arr[nx][ny]) <= mid){
+                if(isValid(nx, ny) && !visited[nx][ny] && Math.abs(arr[cx][cy]-arr[nx][ny]) <= mid){
                     cnt++;
                     visited[nx][ny] = true;
                     q.add(new int[]{nx, ny});
@@ -33,6 +35,7 @@ public class Main {
         }
         return cnt;
     }
+
     public static void main(String[] args)throws IOException {
         // 여기에 코드를 작성해주세요.
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -50,28 +53,31 @@ public class Main {
             }
         }
 
-        int left = 1;
+        int left = 0;
         int right = max;
-        int result = 0;
+        int result = -1;
+        int required_cells = (n * n + 1) / 2; // 전체 칸의 반을 반올림
+
         while(left <= right){
-            int mid = (left+right) / 2;
+            int mid = (left + right) / 2;
+            boolean[][] visited = new boolean[n][n];
             int cnt = 0;
+
             for(int i=0;i<n;i++){
                 for(int j=0;j<n;j++){
-                    boolean[][] visited = new boolean[n][n];
-                    Queue<int[]> q = new LinkedList<>();
-                    q.add(new int[] {i, j});
-                    visited[i][j] = true;
-                    cnt = Math.max(cnt, bfs(visited, q, mid));
+                    if(!visited[i][j]){
+                        int component_size = bfs(visited, i, j, mid);
+                        cnt = Math.max(cnt, component_size);
+                    }
                 }
             }
-            //색칠하는게 반이상이다? 그럼 mid값 줄여야지
-            if(cnt >= n*n/2){
+
+            // 최대 연결된 영역의 크기가 전체 칸의 반 이상이면 D 값을 줄여서 최소값을 찾음
+            if(cnt >= required_cells){
                 result = mid;
                 right = mid - 1;
             }
             else{
-                //색칠하는게 반이상이 안되면 mid값 올려야지
                 left = mid + 1;
             }
         }
