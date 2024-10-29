@@ -4,7 +4,7 @@ import java.io.*;
 public class Main {
     private static int n;
     private static int blockCnt = 0;
-    private static int max = Integer.MIN_VALUE;
+    private static int max = 0;
     private static int[][] grid;
     private static boolean[][] visited;
     private static int[] dx = {0, 0, 1, -1};
