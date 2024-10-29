@@ -5,6 +5,7 @@ public class Main {
     private static int n;
     private static int blockCnt = 0;
     private static int max = 0;
+    private static int currentBlock;
     private static int[][] grid;
     private static boolean[][] visited;
     private static int[] dx = {0, 0, 1, -1};
@@ -12,20 +13,18 @@ public class Main {
     private static boolean isValid(int x, int y){
         return x>=0 && y>=0 && x<n && y<n;
     }
-    private static int dfs(int x, int y){
+    private static void dfs(int x, int y){
         visited[x][y] = true;
-        int cnt = 1;
+        
         for(int d=0;d<4;d++){
             int nx = x + dx[d];
             int ny = y + dy[d];
 
             if(isValid(nx, ny) && !visited[nx][ny] && grid[x][y] == grid[nx][ny]){
-                cnt += dfs(nx, ny);
+                currentBlock++;
+                dfs(nx, ny);
             }
         }
-
-        return cnt;
-        
     }
 
     public static void main(String[] args) throws IOException {
@@ -49,11 +48,13 @@ public class Main {
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
                 if(!visited[i][j]){
-                    int tmp = dfs(i, j);
-                    if(tmp >= 4){
+                    currentBlock = 1;
+                    dfs(i, j);
+                    if(currentBlock >= 4){
                         blockCnt++;
-                        max = Math.max(max, tmp);
+                        
                     }
+                    max = Math.max(max, currentBlock);
                 }
             }
         }
